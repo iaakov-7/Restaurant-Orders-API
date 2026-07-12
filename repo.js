@@ -11,3 +11,5 @@ export async function createOrder(status, customer, table) {
   orders.push(order);
   await writeJson("./db/orders.json", orders);
 }
+
+export function getOrders(status, customer, table) {}
