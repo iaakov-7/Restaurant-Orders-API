@@ -21,7 +21,7 @@ export function validUpdateStatus(order, status) {
       message =
         "in case that status is ready, updating must be ready or delivered ";
     } else order.status = status.toUpperCase();
-  } else message = " Invalid status for updating";
+  } else message = "Invalid status for updating";
   if (message.length > 1) {
     const error = new Error(message);
     error.statusCode = 400;
