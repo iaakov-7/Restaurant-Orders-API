@@ -1,5 +1,5 @@
 import express from "express";
-import { createOrder, getOrders, getOrderById } from "./repo.js";
+import { createOrder, getOrders, getOrderById, updateOrder } from "./repo.js";
 import { validCreateMiddleware, checkIdMiddleware } from "./middlewares.js";
 import { error } from "node:console";
 
@@ -27,3 +27,15 @@ router.get("/:id", checkIdMiddleware, async (req, res) => {
   }
   res.json({ success: true, order });
 });
+
+router.put(
+  "/:id",
+  checkIdMiddleware,
+  validCreateMiddleware,
+  async (req, res) => {
+    const id = parseInt(req.params.id);
+    const { customer, table } = req.body;
+    await updateOrder(id, customer, table);
+    res.json({ success: true, message: `Order ${id} updated successfully` });
+  },
+);

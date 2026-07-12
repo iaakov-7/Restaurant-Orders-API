@@ -25,3 +25,17 @@ export async function getOrderById(id) {
   const order = orders.find((order) => order.id === id);
   return order;
 }
+
+export async function updateOrder(id, customer, table) {
+  const orders = await readJson("./db/orders.json");
+  const order = orders.find((order) => order.id === id);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  order.customer = customer;
+  order.table = table;
+  console.log("updating");
+  await writeJson("./db/orders.json", orders);
+}
