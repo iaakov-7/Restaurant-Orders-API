@@ -9,7 +9,7 @@ export function loggerMiddleware(req, res, next) {
 export function validCreateMiddleware(req, res, next) {
   const errors = [];
   if (!req.body.customer || typeof req.body.customer !== "string") {
-    errors.push("Field status is required and must be type of string.");
+    errors.push("Field customer is required and must be type of string.");
   }
   if (!req.body.table || typeof req.body.table !== "number") {
     errors.push("Field table is required and must be type of number.");

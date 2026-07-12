@@ -1,6 +1,6 @@
 import { readJson, writeJson } from "./IO.js";
 
-export async function createOrder(status, customer, table) {
+export async function createOrder(customer, table) {
   const orders = await readJson("./db/orders.json");
   const order = {
     id: orders.length > 0 ? orders[orders.length - 1].id + 1 : 1,
@@ -12,4 +12,10 @@ export async function createOrder(status, customer, table) {
   await writeJson("./db/orders.json", orders);
 }
 
-export function getOrders(status, customer, table) {}
+export async function getOrders(status, customer, table) {
+  let orders = await readJson("./db/orders.json");
+  if (status) orders = orders.filter((order) => order.status === status);
+  if (customer) orders = orders.filter((order) => order.customer === customer);
+  if (table) orders = orders.filter((order) => order.table == table);
+  return orders;
+}
