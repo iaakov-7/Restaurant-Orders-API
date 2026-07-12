@@ -23,6 +23,11 @@ export async function getOrders(status, customer, table) {
 export async function getOrderById(id) {
   const orders = await readJson("./db/orders.json");
   const order = orders.find((order) => order.id === id);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
   return order;
 }
 
@@ -37,5 +42,17 @@ export async function updateOrder(id, customer, table) {
   order.customer = customer;
   order.table = table;
   console.log("updating");
+  await writeJson("./db/orders.json", orders);
+}
+
+export async function deleteOrder(id) {
+  let orders = await readJson("./db/orders.json");
+  const order = orders.find((order) => order.id === id);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  orders = orders.filter((order) => order.id !== id);
   await writeJson("./db/orders.json", orders);
 }
