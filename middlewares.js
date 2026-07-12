@@ -21,3 +21,12 @@ export function validCreateMiddleware(req, res, next) {
   }
   next();
 }
+
+export function checkIdMiddleware(req, res, next) {
+  if (isNaN(parseInt(req.params.id))) {
+    const error = new Error("Id must be an integer number");
+    error.statusCode = 400;
+    throw error;
+  }
+  next();
+}

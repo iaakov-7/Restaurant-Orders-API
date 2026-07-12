@@ -19,3 +19,9 @@ export async function getOrders(status, customer, table) {
   if (table) orders = orders.filter((order) => order.table == table);
   return orders;
 }
+
+export async function getOrderById(id) {
+  const orders = await readJson("./db/orders.json");
+  const order = orders.find((order) => order.id === id);
+  return order;
+}
