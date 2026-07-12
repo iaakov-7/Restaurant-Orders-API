@@ -1,4 +1,5 @@
 import { readJson, writeJson } from "./IO.js";
+import { validUpdateStatus } from "./validation.js";
 
 export async function createOrder(customer, table) {
   const orders = await readJson("./db/orders.json");
@@ -54,5 +55,18 @@ export async function deleteOrder(id) {
     throw error;
   }
   orders = orders.filter((order) => order.id !== id);
+  await writeJson("./db/orders.json", orders);
+}
+
+export async function updaeStatus(id, status) {
+  const orders = await readJson("./db/orders.json");
+  const order = orders.find((order) => order.id === id);
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+  validUpdateStatus(order, status);
+
   await writeJson("./db/orders.json", orders);
 }

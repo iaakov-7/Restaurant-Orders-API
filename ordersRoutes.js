@@ -5,6 +5,7 @@ import {
   getOrderById,
   updateOrder,
   deleteOrder,
+  updaeStatus,
 } from "./repo.js";
 import { validCreateMiddleware, checkIdMiddleware } from "./middlewares.js";
 import { error } from "node:console";
@@ -45,4 +46,12 @@ router.delete("/:id", checkIdMiddleware, async (req, res) => {
   const id = parseInt(req.params.id);
   await deleteOrder(id);
   res.json({ success: true, message: `Order ${id} deleted successfully` });
+});
+
+router.patch("/:id/status", checkIdMiddleware, async (req, res) => {
+  const id = parseInt(req.params.id);
+  const status = req.body.status;
+
+  await updaeStatus(id, status);
+  res.json({ success: true, message: `Order ${id} updated successfully` });
 });
